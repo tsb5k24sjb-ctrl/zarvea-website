@@ -242,7 +242,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const pageLink = e.target.closest('[data-page]');
     if (pageLink) {
       e.preventDefault();
-      showPage(pageLink.dataset.page, pageLink.dataset.anchor || '');
+      history.pushState({page: pageLink.dataset.page, anchor: pageLink.dataset.anchor || ''}, '');showPage(pageLink.dataset.page, pageLink.dataset.anchor || '');
       return;
     }
 
@@ -258,6 +258,12 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
+  history.replaceState({page:'home', anchor:''}, '');
+
+window.addEventListener('popstate', function(e) {
+  const state = e.state || {page:'home', anchor:''};
+  showPage(state.page, state.anchor || '');
+});
   showPage('home', '');
 });
 </script><script>
