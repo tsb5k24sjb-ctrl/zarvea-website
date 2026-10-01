@@ -321,9 +321,31 @@ document.addEventListener('DOMContentLoaded', function () {
         val('message')
       ];
 
-      window.location.href =
-        'mailto:contact@zarvea.de?subject=' + encodeURIComponent(subject) +
-        '&body=' + encodeURIComponent(lines.join('\n'));
+      fetch('https://formspree.io/f/xyezazeo', {
+  method: 'POST',
+  headers: {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    subject: subject,
+    name: val('name'),
+    email: val('email'),
+    company: val('company'),
+    phone: val('phone'),
+    service: val('service'),
+    product: val('product'),
+    message: val('message')
+  })
+}).then(function(response) {
+  if (response.ok) {
+    alert('Vielen Dank! Ihre Anfrage wurde erfolgreich gesendet.');
+  } else {
+    alert('Die Anfrage konnte leider nicht gesendet werden. Bitte versuchen Sie es erneut.');
+  }
+}).catch(function() {
+  alert('Die Anfrage konnte leider nicht gesendet werden. Bitte versuchen Sie es erneut.');
+});
     });
   });
 });
